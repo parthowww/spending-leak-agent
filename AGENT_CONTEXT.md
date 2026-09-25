@@ -138,82 +138,37 @@ spending-leak-agent/
 - [x] `layout.tsx` updated — better metadata, `font-display: swap`
 - [x] Port conflict fix (`start.sh`) — kills ports 8000 and 3000 before starting
 - [x] Offline connection resilience banner
+- [x] Landing page syntax fix (escaped apostrophe in `src/app/page.tsx`)
+- [x] **Navbar UI fix (`Navbar.tsx`):**
+  - Brand logo wrapped in Next.js `Link` to `/`
+  - Subtitle hidden on `< lg` screens and truncated
+  - Responsive button labels ("Demo", "Upload") preventing overflow on 768px-1024px screens
+  - User pill with truncated name and demo tag
+- [x] **SubscriptionCard fix (`SubscriptionCard.tsx`):**
+  - Truncated merchant name preventing badge collisions
+  - Responsive flex-wrap button row avoiding clipping on small screens (< 380px)
+- [x] **TransactionsTable fix (`TransactionsTable.tsx`):**
+  - Table wrapped with `min-w-[640px]` and column width constraints for clean horizontal scroll
+- [x] **DashboardSummary fix (`DashboardSummary.tsx`):**
+  - Category breakdown text truncated with tooltips and `shrink-0` amounts
+- [x] **Auth & Session Sync (`src/app/app/page.tsx`, `api.ts`, `login/page.tsx`, `AuthModal.tsx`):**
+  - Supabase session checked on mount, updating username and token
+  - Demo user display name and token persisted in `localStorage` across page reloads
+  - Sign out handler implemented and connected to Navbar
+- [x] **Branded 404 page created (`src/app/not-found.tsx`):**
+  - Emerald/slate styling with direct links to Dashboard and Landing page
+- [x] **Loading skeleton states:**
+  - Added skeleton pulse placeholders on Dashboard and Subscriptions tabs during data load
 
 ---
 
-## ⚠️ TASKS LEFT TO COMPLETE
+## 🚀 Deployment & Production Readiness
 
-### 🔴 HIGH PRIORITY — UI Fixes
-
-**1. Navbar (`src/components/Navbar.tsx`) — Text Overflow / Crowding**
-
-The Navbar is too crowded on medium screens. Things to fix:
-- The brand subtitle `"Transparent Recurring Payment & Subscription Intelligence"` is too long — truncate or hide it
-- Action buttons (Demo, Upload CSV, Reset, User pill) overflow on screens 768px–1024px
-- The "Explainable AI" badge next to the title crowds the brand area
-- **Fix approach:** 
-  - Hide the subtitle on screens < `lg`
-  - Collapse "1-Click Demo Data" to just an icon on `md` screens
-  - Move the user pill to a proper user menu/dropdown
-  - Make the brand section `min-w-0` with `truncate`
-
-**2. SubscriptionCard (`src/components/SubscriptionCard.tsx`) — Button Row Overflow**
-
-On mobile (< 380px), the 4 action buttons (Keep, Cancel/Review, Not a sub, Remind) overflow horizontally.
-- **Fix:** Wrap button group in a `flex-wrap` container, or move "Not a sub" and "Remind" to a `...` overflow menu
-
-**3. TransactionsTable (`src/components/TransactionsTable.tsx`) — Horizontal scroll on mobile**
-
-The table has many columns and no proper `overflow-x-auto` wrapper.
-- **Fix:** Wrap table in `<div className="overflow-x-auto rounded-xl">` and add min-widths to columns
-
-**4. DashboardSummary — Category breakdown text clips**
-
-In the Category Spend section, long category names like `"Streaming & Entertainment"` clip on small cards.
-- **Fix:** Add `truncate` to category name spans, add `title` tooltip
-
-### 🟡 MEDIUM PRIORITY — Features
-
-**5. `/app` route — Add link back to `/` in Navbar**
-
-Currently the Navbar at `/app` has no way back to the landing page. Add a small "Home" link or make the logo clickable and linking to `/`.
-
-**Fix in `Navbar.tsx`:**
-```tsx
-// Wrap the brand div in a Next.js Link:
-import Link from 'next/link';
-// ...
-<Link href="/" className="flex items-center space-x-3">
-  {/* existing brand content */}
-</Link>
-```
-
-**6. Login page — Wire up to actual auth flow**
-
-Currently when Supabase IS configured, after login the user goes to `/app` but the `userName` state in the app page still defaults to `'Parthasarathi'`. Need to:
-- Read Supabase session on `/app` page mount
-- Set `userName` from `session.user.email` or user metadata
-- Show a logout button that calls `supabase.auth.signOut()` and redirects to `/login`
-
-**7. Add a `not-found.tsx` (404 page)**
-
-Currently hitting an unknown route shows Next.js default 404. Add a branded 404 at `src/app/not-found.tsx`.
-
-### 🟢 LOW PRIORITY — Polish
-
-**8. Loading skeleton on `/app` first mount**
-
-When data is loading, show a proper skeleton UI instead of nothing. (DashboardSummary already has a skeleton — check if it shows properly.)
-
-**9. Mobile bottom nav on `/app`**
-
-The `Navbar.tsx` has a mobile bottom nav already built. Verify it shows correctly on mobile and doesn't overlap content.
-
-**10. Deploy**
-- Backend → Render using `render.yaml` (already configured)
-- Frontend → Vercel (set `NEXT_PUBLIC_API_URL` env var to Render URL)
-- Set `GEMINI_API_KEY` in Render env for AI summaries
-- Set `SUPABASE_URL` and `SUPABASE_JWT_SECRET` in both
+- [ ] **Deploy Backend:**
+  - Deploy to Render using `render.yaml`
+  - Set environment variables (`GEMINI_API_KEY`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`)
+- [ ] **Deploy Frontend:**
+  - Deploy to Vercel (set `NEXT_PUBLIC_API_URL` to backend service URL)
 
 ---
 
