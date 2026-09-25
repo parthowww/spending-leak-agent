@@ -14,6 +14,17 @@ An explainable personal-finance web application that analyzes uploaded bank and 
 
 ---
 
+## 📚 Dedicated Documentation & Guides
+
+| Guide | Description |
+| :--- | :--- |
+| [**Problem & Detection Engine**](file:///home/parthow/Downloads/spending-leak-agent/docs/PROBLEM_AND_DETECTION_ENGINE.md) | Deep dive on subscription leakage in India, why black-box LLMs fail at finance, mathematical cadence formulas, confidence scoring weights, and deduplication hashing. |
+| [**Backend API Architecture**](file:///home/parthow/Downloads/spending-leak-agent/apps/api/README.md) | FastAPI services, Pydantic schemas, SQLAlchemy models, multi-bank CSV parser, recurrence detector, test suite, and REST API endpoint reference. |
+| [**Frontend Web App & All Pages**](file:///home/parthow/Downloads/spending-leak-agent/apps/web/README.md) | Next.js 16 (App Router) + React 19 architecture, breakdown of all 4 pages (`/`, `/app`, `/login`, `404`), component library, modals, state management, and Tailwind CSS v4 styling. |
+| [**Supabase Auth & Tenant Isolation**](file:///home/parthow/Downloads/spending-leak-agent/docs/SUPABASE_AUTH_AND_TENANT_ISOLATION.md) | Dual-mode auth strategy (Supabase JWT vs zero-friction demo mode), step-by-step Supabase project setup, database row-level isolation, and tenant switching guide. |
+
+---
+
 ## 🏗️ Architecture & Tech Stack
 
 ```
